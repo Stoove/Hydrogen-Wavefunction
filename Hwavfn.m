@@ -76,7 +76,6 @@ nz = params.nsams(3);
 
 %% Generate co-ordinates for the x-y plane
 
-% grids = zeros(nx,ny,nz);
 x = repmat(reshape(linspace(xlim(1),xlim(2),nx),nx,1),[1 ny nz]);
 y = repmat(reshape(linspace(ylim(1),ylim(2),ny),1,ny),[nx 1 nz]);
 z = repmat(reshape(linspace(zlim(1),zlim(2),nz),1,1,nz),[nx ny 1]);
@@ -90,7 +89,6 @@ phi = atan2(y,x);
 r1 = sqrt( (2*Z/n/amu).^3 .* factorial(n-l-1)/(2*n*factorial(n+l)) );
 r2 = exp(-Z.*r./n./amu);
 r3 = (2*Z.*r/n/amu).^l;
-% r4 = polyval(LaguerreGen(2*l+1,n-l-1),2*Z.*r/n/amu);
 r4 = polyval(LaguerreGen(n-l-1,2*l+1),2*Z.*r/n/amu);
 
 R = r1.*r2.*r3.*r4;

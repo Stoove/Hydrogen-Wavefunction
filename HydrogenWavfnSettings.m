@@ -54,23 +54,35 @@ for i=0:length(labels)-1
 end
 
 flag = true; % Flag to say we have a numeric m
-if length(orbital)==3
-    labels = {'+','-';+1,-1};
-    for i=1:2 % try looking for a + or - first
-        if strcmp(orbital(3),labels{1,i})
-            params.m = labels{2,i};
-            flag = false; % No need to run numeric part
-            break
+if length(orbital)>=3
+    
+    if length(orbital) == 3
+        labels = {'+','-';+1,-1}; % Special case for simple + or -
+        for i=1:2 % try looking for a + or - first
+            if strcmp(orbital(3),labels{1,i})
+                params.m = labels{2,i};
+                flag = false; % No need to run numeric part
+                break
+            end
         end
     end
+    
+    % Determine which parts of string are the numeric part
+    if length(orbital) > 3
+        
+        
+        
+    end
+    
     if flag % Treat last char as numeric
-        dum = str2double(orbital(3));
+        dum = str2double(orbital(end));
         if isnan(dum) % char was not numeric
             warning(['HydrogenWavfnSettings::orbital::final character in ' orbital ' not a number or ''+'' or ''-''.'])
             dum = 0;
         end
         params.m = dum;
     end
+    
 end
 % if no m info, defaults to m=0 anyway.
 
