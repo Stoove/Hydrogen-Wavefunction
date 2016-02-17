@@ -40,6 +40,9 @@
 #
 # (6) Upload Compute_Ylm.m to complete functionality of package. (Dependency of Hwavfn.m)!
 #
+# (7) Write more general version of MixedHydrogenPDF2state.m which allows an arbitrary number of
+#     states and the corresponding relative phase factors.
+#
 #
 #####################################################################################################
 # The package includes
@@ -82,7 +85,9 @@
 #	of nlm identifier strings (see note on HydrogenWavfnSettings.m, above).
 #
 # MixedHydrogenPDF3state.m
-# 	Description goes here
+# 	Simple function to calculate the probability density function for a 50-25-25 superposition between
+#	three wavefunctions, which have a relative phase factor given in inputs Theta, phi. Requires cell array
+#	of nlm identifier strings (see note on HydrogenWavfnSettings.m, above).
 #
 # pdfvolfract.m
 # 	Function to calculate the PDF volume fraction with more than or equal to the argument x. Used
