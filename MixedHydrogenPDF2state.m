@@ -2,7 +2,9 @@
 % wavefunctions (given) with a phase factor between them (theta) and equal
 % state amplitudes (i.e. a 50-50 superposition).
 %
-% 
+% orbs - cell array with two entries, giving nlm identifiers (strings) for
+% the two states you wish to superpose. For more info on nlm identifiers,
+% see the Hydrogen-Wavefunction README (Note under HydrogenWavfnSettings.m)
 %
 % varargin{1} allows you to specify that the calculation should be done in
 % 3D (at massively reduced resolution!)
@@ -45,8 +47,8 @@ nsams = [1000 1000];
 
 if threeDflag % Implement different settings for the 3D case
     lims = [lims;-8 8];
-    
     nsams = [200 200 200];
+    
     if strcmp(plane,'xz')
         nsams(2) = nsams(2) + 1;
     elseif strcmp(plane,'xy')
