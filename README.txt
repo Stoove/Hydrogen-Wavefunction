@@ -26,7 +26,7 @@
 #####################################################################################################
 #
 # (1) Add text support for arbitrary nlm combinations (currently doesn't support -ive m except -1)
-#	FINISHED!
+#	**FINISHED!**
 # 
 # (2) Tidy up functionality of the script files which do one specific things. Make them callable 
 #     functions.
