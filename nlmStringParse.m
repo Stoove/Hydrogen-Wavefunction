@@ -1,5 +1,5 @@
 % Function to scan an nlm identifier string and return n, l, and m numeric
-% values
+% values. See note in README file under HydrogenWavfnSettings.m 
 
 function [n,l,m] = nlmStringParse(str)
 
@@ -56,7 +56,7 @@ end
 
 if isempty(l)
     error(['nlmStringParse:: Could not assign an l value to string "' str(identLoc) ...
-        '". Please check Hydrogen-Wavefunction documentation for correct notation.'])
+        '". Please check Hydrogen-Wavefunction README file for correct notation.'])
 end
 
 % Evaluate n
