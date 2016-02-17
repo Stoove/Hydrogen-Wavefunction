@@ -77,9 +77,11 @@
 # 	Script to generate associated Laguerre polynomials
 #
 # MixedHydrogenPDF2state.m
-# 	Description goes here
+# 	Simple function to calculate the probability density function for a 50-50 superposition between
+#	two wavefunctions, which have a relative phase factor given in input Theta. Requires cell array
+#	of nlm identifier strings (see note on HydrogenWavfnSettings.m, above).
 #
-# MixedHydrogenPDS3state.m
+# MixedHydrogenPDF3state.m
 # 	Description goes here
 #
 # pdfvolfract.m
