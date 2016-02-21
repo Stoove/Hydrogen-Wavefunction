@@ -31,7 +31,10 @@
 
 function [psi] = Hwavfn(params)
 
-%% Parse input params struct, assign vars, check validity, correct if bad
+%% Parse input params struct, assign vars, check validity, correct if bad.
+
+% This involves unpacking the struct into shorter variables for code
+% clarity.
 
 sets = struct('Z',1,'a0',1,'me',1,'mn',2000,'n',1,'l',0,'m',0,'lims',[-4 4;-4 4;0 0],'nsams',[1000 1000 1]);
 
@@ -44,21 +47,31 @@ mn = params.mn;
 mu = (me.*mn)./(me + mn);
 amu = me./mu.*a0;
 
+% Ensure n, l, m, satisfy requirements
 n = params.n;
+n = CheckIsInteger(n,'n');
+if n <= 0
+    warning(['Hwavfn.m:: n <= 0! Settings n=0.'  char(10) 'See Hydrogen-Wavefunction README'...
+        'for more information on proper notation.'])
+end
 l = params.l;
+n = CheckIsInteger(l,'l');
 if l >= n
-    warning('l >= n! Setting l = n-1')
+    warning(['Hwavfn.m::  l >= n! Setting l = n-1' char(10) 'See Hydrogen-Wavefunction README'...
+        'for more information on proper notation.'])
     l = n-1;
 end
 m = params.m;
+n = CheckIsInteger(m,'m');
 if m > l
-    warning('m > l! Setting m = l')
+    warning(['Hwavfn.m::  m > l! Setting m = l'  char(10) 'See Hydrogen-Wavefunction README'...
+        'for more information on proper notation.'])
     m = l;
 end
 
 sz = size(params.lims);
 if or(sz(1)~=3,sz(2)~=2)
-    warning('lims argument must be 3x2. Using defaults.')
+    warning('Hwavfn.m:: lims argument must be 3x2. Using defaults.')
     params.lims = sets.lims;
 end
 xlim = params.lims(1,:);
@@ -67,7 +80,7 @@ zlim = params.lims(3,:);
 
 sz = size(params.nsams);
 if ~or(sz(1)==3 && sz(2)==1,sz(1)==1 && sz(2)==3)
-    warning('nsams argument must be 3x1. Using defaults.')
+    warning('Hwavfn.m::  nsams argument must be 3x1. Using defaults.')
     params.nsams = sets.nsams;
 end
 nx = params.nsams(1);
@@ -76,7 +89,6 @@ nz = params.nsams(3);
 
 %% Generate co-ordinates for the x-y plane
 
-% grids = zeros(nx,ny,nz);
 x = repmat(reshape(linspace(xlim(1),xlim(2),nx),nx,1),[1 ny nz]);
 y = repmat(reshape(linspace(ylim(1),ylim(2),ny),1,ny),[nx 1 nz]);
 z = repmat(reshape(linspace(zlim(1),zlim(2),nz),1,1,nz),[nx ny 1]);
@@ -90,7 +102,6 @@ phi = atan2(y,x);
 r1 = sqrt( (2*Z/n/amu).^3 .* factorial(n-l-1)/(2*n*factorial(n+l)) );
 r2 = exp(-Z.*r./n./amu);
 r3 = (2*Z.*r/n/amu).^l;
-% r4 = polyval(LaguerreGen(2*l+1,n-l-1),2*Z.*r/n/amu);
 r4 = polyval(LaguerreGen(n-l-1,2*l+1),2*Z.*r/n/amu);
 
 R = r1.*r2.*r3.*r4;

@@ -1,7 +1,8 @@
 % Function to take requests for hydrogenic wavefunctions in different
 % planes and return a settings list for Hwavfn.m
 % plane - 'xy' or 'xz'
-% orbital - orbital state in standard notation, string.
+% orbital - orbital state in standard notation, string. See note in README
+% for notation details.
 % lims - numeric array 2x2 giving limits of array along each direction in
 % the plane
 % nsams - numeric array 1x2 giving n.o. samples along each direction in the
@@ -41,38 +42,53 @@ else
     error('HydrogenWavfnSettings::plane::function currently recognizes ''xy'', ''yz'' and ''xz''.')
 end
 
-%% Determine the orbital settings from the notation
+%% Determine the orbital settings from the string input
 
-params.n = round(str2double(orbital(1)));
-
-labels = {'s','p','d','f'};
-for i=0:length(labels)-1
-    if strcmp(orbital(2),labels{i+1})
-        params.l = i;
-        break
-    end
-end
-
-flag = true; % Flag to say we have a numeric m
-if length(orbital)==3
-    labels = {'+','-';+1,-1};
-    for i=1:2 % try looking for a + or - first
-        if strcmp(orbital(3),labels{1,i})
-            params.m = labels{2,i};
-            flag = false; % No need to run numeric part
-            break
-        end
-    end
-    if flag % Treat last char as numeric
-        dum = str2double(orbital(3));
-        if isnan(dum) % char was not numeric
-            warning(['HydrogenWavfnSettings::orbital::final character in ' orbital ' not a number or ''+'' or ''-''.'])
-            dum = 0;
-        end
-        params.m = dum;
-    end
-end
+% params.n = round(str2double(orbital(1)));
+% 
+% labels = {'s','p','d','f'};
+% for i=0:length(labels)-1
+%     if strcmp(orbital(2),labels{i+1})
+%         params.l = i;
+%         break
+%     end
+% end
+% 
+% flag = true; % Flag to say we have a numeric m
+% if length(orbital)>=3
+%     
+%     if length(orbital) == 3
+%         labels = {'+','-';+1,-1}; % Special case for simple + or -
+%         for i=1:2 % try looking for a + or - first
+%             if strcmp(orbital(3),labels{1,i})
+%                 params.m = labels{2,i};
+%                 flag = false; % No need to run numeric part
+%                 break
+%             end
+%         end
+%     end
+%     
+%     % Determine which parts of string are the numeric part
+%     if length(orbital) > 3
+%         
+%         
+%         
+%     end
+%     
+%     if flag % Treat last char as numeric
+%         dum = str2double(orbital(end));
+%         if isnan(dum) % char was not numeric
+%             warning(['HydrogenWavfnSettings::orbital::final character in ' orbital ' not a number or ''+'' or ''-''.'])
+%             dum = 0;
+%         end
+%         params.m = dum;
+%     end
+%     
+% end
 % if no m info, defaults to m=0 anyway.
+
+% Farmed this functionality out to another function due to code length
+[params.n,params.l,params.m] = nlmStringParse(orbital);
 
 %% Set output to defaults where there is no info
 
